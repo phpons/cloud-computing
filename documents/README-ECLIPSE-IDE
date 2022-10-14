@@ -1,0 +1,34 @@
+
+If you want, you can use Eclipse as an IDE for C development, 
+you only need to install the tool "CDT" as a regular plugin from 
+the regular Eclipse install site.
+
+With CDT installed, you can launch Eclipse on the workspace and
+switch to the Eclipse perspective that is suited for C development. 
+Then, you can create a C/C++ project with the name "arm.boot". 
+Choose the option of a project with its own makefile. 
+That's it, you can browse and compile and execute.
+
+To debug with QEMU, you simply need to create a debug configuration 
+for the executable "kernel.elf". Right click on the executable "kernel.elf"
+and select "Debug Configurations". Under the "Debugger" tab, you need to set 
+the gdb information and the remote target information:
+
+    GDB Client Set
+
+        Executable name: arm-none-eabi-gdb
+
+    Remote Target
+
+            localhost
+
+            1234
+
+To debug, launch QEMU in another terminal, using "make debug", and
+then launch gdb from within Eclipse. 
+
+Using gdb from Eclipse provides better integration with the development process
+but the gdb console is a real pain to use. So, for fancy use of the gdb console,
+you may want to stay using command-line version of gdb, experimenting with the
+gdb tui layouts with an enlarged terminal window.
+

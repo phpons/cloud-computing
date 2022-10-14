@@ -1,0 +1,183 @@
+
+This is a readme about QEMU, a type-II hypervisor that works great on Linux.
+As an hypervisor, QEMU is designed to emulate a bare machine, that is, create
+the illusion of a real physical machine, but in software. Qemu can emulate
+many target machines, with different processors and different devices.
+You can have a list of machines as follows:
+
+	$ qemu-system-arm -machine help
+	...
+		
+A machine is essentially about a preset hardware configuration.
+Indeed, Qemu is about simulating a computer, so the configuration of Qemu is 
+mostly about what hardware is simulated:
+
+       - processor type and number of cores
+       - amount of memory
+       - disks, either ide or scsi disks for example
+       - cdrom
+       - serial lines
+       - display, if any
+       - buses, like ISA or PCI bus
+       - etc.
+
+By choosing qemu-system-i386, you are opting for a i386-based computer.
+By choosing qemu-system-arm, you are opting for an ARM-based computer.
+For this simple project, the software has been written 
+for the ARM RealView Emulation Baseboard (ARM926EJ-S).
+
+You can let the original choice for the CPU or you can choose a different
+ARM processor. To know your options, you can issue the following command:
+
+	$ qemu-system-arm -machine versatilepb -cpu help
+	Available CPUs:
+  	arm1026
+  	arm1136
+  	arm1136-r2
+  	arm1176
+	arm11mpcore
+  	arm926
+  	arm946
+	cortex-a15
+  	cortex-a8
+  	cortex-a9
+  	cortex-m3
+	...
+	
+We will keep the default CPU for the VersatilePB board, 
+so there is no need to specify a specific CPU. 
+
+----------------------------------------------------
+Specifying the amount of memory on the virtual board
+----------------------------------------------------
+Default is 128M.
+ 
+   $ qemu-system-arm -m 64M
+
+   $ qemu-system-arm -machine versatileab -m 1M
+     
+----------------------------------------------------
+Keyboard Setup
+----------------------------------------------------
+
+You can choose a keyboard layout.
+
+Default is -k en-us, but for french keyboard, you may use -k fr
+
+   $ qemu-system-arm -k en-us
+   $ qemu-system-arm -k fr
+
+----------------------------------------------------
+ELF Loading
+----------------------------------------------------
+
+You can tell QEMU to load an ELF file in memory,
+it needs to be an executable ELF. QEMU will place
+the different sections where they need to go in memory.
+So for an executable file "kernel.elf", we have:
+
+   $ qemu-system-arm -device loader,file=kernel.elf
+   
+This option "-device loader" is the "generic loader", 
+which behaves the same on any architecture supported by QEMU. 
+It just loads an ELF image into guest RAM and doesn't do anything 
+to change the CPU reset behavior. This is a good choice if you have 
+a completely bare-metal image which includes the exception 
+vector table and want to have it start in the same way 
+the hardware would out of reset.
+
+Warning, do not use the option "-kernel" because it is intended
+the load a "Linux kernel", like a BIOS would do, which is a 
+completely different story. 
+
+
+--------------------------------------------------------------------
+QEMU Monitor Console
+--------------------------------------------------------------------
+Qemu provides you with an administrative console, called the monitor
+console. A typical way to have it is to configure it on the stdio serial
+line, which you are likely to have in all configurations.
+
+	$ qemu-system-arm -serial mon:stdio
+
+This is a very standard configuration, with one serial line and 
+one IDE disk. Notice that "-serial mon:stdio" as opposed to 
+the regular "-serial stdio". 
+
+From the terminal window, once Qemu is running, you can access the
+monitor console by typing "C-a c", getting the (qemu) prompt.
+
+   (qemu) help
+
+will provide you with a detailed help of the Qemu console commands.
+
+--------------------------------------------------------------------
+Debugging with QEMU:
+--------------------------------------------------------------------
+
+To have GDB debugging, you need to ask QEMU to provide a GDB server
+that the GDB can connect to:
+
+    $ qemu-system-arm -S -s
+
+or even better:
+ 
+    $ qemu-system-arm -gdb tcp::1234 -S
+
+The -S option forces qemu to stop upon starting allowing you to attach gdb. 
+The tcp::1234 indicates that you will attach on the port 1234.
+So in another shell:
+
+  $ arm-none-eabi-gdb
+  (gdb) file kernel.elf 
+  Reading symbols from kernel.elf...done.
+  (gdb) target remote localhost:1234
+  Remote debugging using :1234
+  0x00000000 in _vector ()
+  (gdb) 
+  
+When debugging through assembly code, 
+please remember to use stepi (si) and nexti (ni) 
+and not the normal step (s) and next (n).
+    
+You can also skip the "assembly sequence", using a breakpoint
+in the first C function (_start)
+
+  $ arm-none-eabi-gdb
+  (gdb) file kernel.elf 
+  Reading symbols from kernel.elf...done.
+  (gdb) br _start
+  Breakpoint 1 at 0x1168: file main.c, line 17.
+  (gdb) target remote localhost:1234
+  Remote debugging using :1234
+  0x00000000 in ?? ()
+  (gdb) continue
+
+  Breakpoint 1, _start () at main.c:17
+  17	  int i = 0;
+ 
+  
+Voila! 
+
+
+
+
+--------------------------------------------------------------------
+QEMU Memory Map Information
+--------------------------------------------------------------------
+
+(qemu) info mtree
+
+--------------------------------------------------------------------
+QEMU Hardware Device Information
+--------------------------------------------------------------------
+
+To have a lot of information on the hardware configuration,
+ultimately chosen by Qemu, you can use the Qemu monitor console
+(see above to know how to activate the monitor on stdio serial
+line) and you can ask Qemu to dump the hardware configuration:
+
+(qemu) info qtree
+
+
+
