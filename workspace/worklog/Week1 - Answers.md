@@ -28,7 +28,7 @@ By running arm-none-eabi-objdump -D kernel.elf, we can see the sections are perf
 
 It is 16-byte aligned because 16B are zeroed at a time. Reason being ASM is writing to 4 registers at a time, each register is of 4B size, therefore 16B.
 
-# Week 2 - Step 2
+# Week 1 - Step 2
 > Understand the boot sequence, following the execution step by step under gdb. The use of gdb is MANDATORY!
 
 Sure. To debug, we can follow these steps:
@@ -77,3 +77,25 @@ You could use stack smashing protection mechanisms (well, any kind of buffer ove
 **I am assuming that *had* meant *add*.**
 
 *kprintf()* itself is already implemented in the code; *kputchar()* has to be implemented, which should be simple. For now I will leave kputchar pointing to UART0; I will also add kprintf.o to the makefile.
+
+# Week 1 - Step 3
+
+> Ask QEMU to emulate a second serial line, via a telnet connection.
+See the makefile and the file "worklog/README-QEMU" for how to do this.
+
+> Direct kprintf to output via that second serial line, allowing you
+to use kprintf to log stuff without compromising the "console".
+
+This is done by directing the output to UART1 instead of UART0.
+
+> Use that to print the byte values representing the encoding
+of the typed characters on the keyboard. Watch what happens
+when hitting regular letters, like 'a' 'b' 'A' and 'B'.
+And then watch what happens when hitting special keys:
+
+	- left,right,up, and down arrows
+	- backspace
+	- delete
+
+
+The arrows, for instance, are composed by 3 different characters instead of just one. They are not a simple ASCII character.

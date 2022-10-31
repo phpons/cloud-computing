@@ -72,7 +72,7 @@ How could you verify that your C program executes safely?
 Had support for kprintf, see the file "kprintf.c".
 
 ---------------------------------------------------
-Git-tag: week1.step2
+Git-tag: week1.step3
 ---------------------------------------------------
 
 Make sure you understand the UART BAR, register offsets, and
