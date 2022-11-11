@@ -27,5 +27,7 @@ void _start() {
     if (c == '\r')
       uart_send(UART0, '\n');
     uart_send(UART0, c);
+    kprintf("Char %c = %d\n\r", c, c);
+
   }
 }

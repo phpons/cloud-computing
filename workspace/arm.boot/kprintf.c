@@ -70,7 +70,7 @@ void kprintf(const char *fmt, ...);
 int kvprintf(char const *fmt, void (*func)(int), int radix, va_list ap);
 
 void kputchar(int c){
-    uart_send(UART0, c);
+    uart_send(UART1, c);
 }
 
 void kprintf(const char *fmt, ...) {

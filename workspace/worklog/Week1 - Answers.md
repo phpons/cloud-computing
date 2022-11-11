@@ -83,6 +83,8 @@ You could use stack smashing protection mechanisms (well, any kind of buffer ove
 > Ask QEMU to emulate a second serial line, via a telnet connection.
 See the makefile and the file "worklog/README-QEMU" for how to do this.
 
+We have to add another (telnet) serial line in the makefile for this to work. This second serial line is "handled" by UART1.
+
 > Direct kprintf to output via that second serial line, allowing you
 to use kprintf to log stuff without compromising the "console".
 
@@ -99,3 +101,8 @@ And then watch what happens when hitting special keys:
 
 
 The arrows, for instance, are composed by 3 different characters instead of just one. They are not a simple ASCII character.
+- Up = 27 91 65
+- Down = 27 91 66
+- Right = 27 91 67
+- Left = 27 91 68
+
