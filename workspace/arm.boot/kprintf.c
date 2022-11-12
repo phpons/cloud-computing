@@ -70,7 +70,7 @@ void kprintf(const char *fmt, ...);
 int kvprintf(char const *fmt, void (*func)(int), int radix, va_list ap);
 
 void kputchar(int c){
-    uart_send(UART1, c);
+    uart_send(UART0, c);
 }
 
 void kprintf(const char *fmt, ...) {
@@ -78,6 +78,17 @@ void kprintf(const char *fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
   kvprintf(fmt, kputchar, 10, ap);
+  va_end(ap);
+}
+
+void debugkputchar(int c) {
+	uart_send(UART1, c);
+}
+
+void debugkprintf(const char *fmt, ...) {
+  va_list ap;
+  va_start(ap, fmt);
+  kvprintf(fmt, debugkputchar, 10, ap);
   va_end(ap);
 }
 

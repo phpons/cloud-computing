@@ -106,3 +106,15 @@ The arrows, for instance, are composed by 3 different characters instead of just
 - Right = 27 91 67
 - Left = 27 91 68
 
+# Week 1 - Step 4
+> You will code the beginning of a console shell, on the 
+serial line UART0. Upon startup, clear the screen, with
+the cursor at the top-left corner.
+
+This is can be done in Linux by printing a certain sequence of characters (thanks StackOverflow).
+
+> The console introduces a command line behavior, like a 
+regular shell. That is, the ability to edit a line before 
+hitting "return", using the left and right arrow, 
+and the backspace or delete keys.
+
