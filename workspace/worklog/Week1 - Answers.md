@@ -118,3 +118,19 @@ regular shell. That is, the ability to edit a line before
 hitting "return", using the left and right arrow, 
 and the backspace or delete keys.
 
+This took a lot of work, but it is done.
+
+> Once you have the ability to read an entire edited line,
+when "return" is hit, you can introduce the parsing of that
+line. First commands to parse:
+  - the command "reset" that clears the entire screen,
+    leaving the cursor at the top-left corner.
+  - the command "echo" that echoes the rest of the line.    
+
+Done.
+
+> You will keep a history of the last 20 lines entered,
+using up and down arrows to scroll through the history,
+on the current line, like a regular shell would do.
+
+Done. Reprinting the line from the history can be done via using a escape sequence and then just kprintf with the chosen line.
