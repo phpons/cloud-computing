@@ -1,6 +1,6 @@
 # Project Report
 ## Previous level of experience:
-I had some previous experience with Docker and Kubernetes before this class, but not much at all with Asm and this kind of low level work.
+I had some previous experience with Docker and Kubernetes before this class, but close to none with Assembly and low-level work such as this.
 
 # How to compile and run
 The command *make run* should be enough to compile and run the code. 
