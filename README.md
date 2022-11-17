@@ -2,19 +2,19 @@
 ## Previous level of experience:
 I had some previous experience with Docker and Kubernetes before this class, but not much at all with Asm and this kind of low level work.
 
-## Frequency of commits
-The commits in this repository are concentrated in two/three different weeks. 
+# Week 1 - progress:
+* The incremental progress can be better followed in the "Week1 - Answers.md" file. *
+# Console
+## Commands:
+Echo and reset were successfully implemented. One improvement could be to beautify the console, but I chose not to do it due to time constraints.
 
-This was not intentional; I had been working on this assignment during all weeks since it was quite complicated for me, but my code was not clean enough for me to "accept" publishing it. I even helped out classmates who were having trouble progressing in the first week assignment.
+## Arrow navigation:
+Navigation with left and right arrows is also working, however it doesn't **perfectly** simulate a terminal line. Going left or right in this console is akin to going left or right directly on the string; that is, writing on a certain position will not push the rightmost characters of a string, it will replace them.
 
-In the end, I procrastinated pushing the clean version of my answers and code, so I hope it is understandable that I was not slacking around over the other weeks. 
+## History:
+The history was implemented with up and down arrow movement. The functionality is very similar to a common terminal, except for the fact that you can scroll through empty lines in the history.
 
-This should also be noticeable from how quick the progress of these commits are, since I'm simply transferring "dirty" work to a clean repo. I do part-time research on top of the university courses, so it was much easier for me to properly clean out a repository on the weekend.
-
-This section is referring to this:
->Nota Bene: if we see nothing in the git log for a week, 
-we will assume that you did not work that week.
-
+--------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------
 Overview (from the original file)
 ---------------------------------------------------
