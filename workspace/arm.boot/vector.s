@@ -46,5 +46,8 @@ _reserved:
 _fiq_handler:
 	b _halt
 _irq_handler:
-	b _halt
+	sub lr,lr,#4 /* adjust return address (Cortex-A8) */
+	stmfd sp!, {r0-r12, lr} /* save registers with link register last */
+	bl isr /* now call the C function interrupt_service_routine */
+	ldmfd sp!, {r0-r12, pc}^ /* restore all registers, including pc from saved lr */
 

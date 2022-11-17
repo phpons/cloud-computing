@@ -8,6 +8,8 @@
 #ifndef CB_H_
 #define CB_H_
 
+#include <stdint.h>
+
 #define CAPACITY 80
 struct cb {
   volatile int head;

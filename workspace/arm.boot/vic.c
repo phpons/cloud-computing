@@ -54,7 +54,7 @@
 #define VICINTENCLEAR 0x014
 
 struct handler {
-  void (*handler)(void* cookie);
+  void (*handler)(void *cookie);
   void *cookie;
 };
 
