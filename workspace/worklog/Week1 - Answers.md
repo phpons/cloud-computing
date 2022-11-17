@@ -111,7 +111,7 @@ The arrows, for instance, are composed by 3 different characters instead of just
 serial line UART0. Upon startup, clear the screen, with
 the cursor at the top-left corner.
 
-This is can be done in Linux by printing a certain sequence of characters (thanks StackOverflow).
+Clearing the screen is done by printing a sequence of characters, also used for the future clear_screen() function.
 
 > The console introduces a command line behavior, like a 
 regular shell. That is, the ability to edit a line before 
