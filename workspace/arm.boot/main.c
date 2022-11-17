@@ -15,7 +15,7 @@ void _start() {
   uart_send_string(UART0, "\nQuit with \"C-a c\" and then type in \"quit\".\n");
  
   vic_setup();
-  void *cookie=NULL;
+  void *cookie = NULL;
   vic_irq_enable(UART0_IRQ, interrupts_handler, cookie);
   setup_interrupts();
   vic_enable();
@@ -32,4 +32,3 @@ void _start() {
     }
   }
 }
-// cd projects/CloudWeek1/workspace/arm.boot

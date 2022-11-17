@@ -1,121 +1,59 @@
-# Before everything, some of my notes:
+# Project Report
 ## Previous level of experience:
 I had some previous experience with Docker and Kubernetes before this class, but not much at all with Asm and this kind of low level work.
 
-# Week 1 - progress:
+# How to compile and run
+The command *make run* should be enough to compile and run the code. 
+
+## Running the code of week 1.
+To run the complete code of week 1, you should use the exact code from the tag "step4". The code from week 2 is not fully functional with the console.
+
+## Running the code of week 2.
+To run the code of week 2, use the tag "week2", which should be the most recent commit.
+
+# What works - Week 1
 *The incremental progress can be better followed in the "Week1 - Answers.md" file.*
+
+Basically, everything works for the requirements of week 1. The behavior of a modern terminal is not 100% matched due to some details; improvements will be discussed in the specific sections.
+
 ## Console
 ### Commands:
-Echo and reset were successfully implemented. One improvement could be to beautify the console, but I chose not to do it due to time constraints.
+The commands echo and reset were successfully implemented. I don't think anything could be improved in this case.
 
 ### Arrow navigation:
-Navigation with left and right arrows is also working, however it doesn't **perfectly** simulate a terminal line. Going left or right in this console is akin to going left or right directly on the string; that is, writing on a certain position will not push the rightmost characters of a string, it will replace them.
+Navigation with left and right arrows is functional, however it doesn't **perfectly** simulate a terminal line; that is, going left or right in this console is akin to going left or right directly on the string; that is, writing on a certain position will not push the rightmost characters of a string, it will replace them.
+
+Up and down navigation is implemented and controls the history functionality:
 
 ### History:
 The history was implemented with up and down arrow movement. The functionality is very similar to a common terminal, except for the fact that you can scroll through empty lines in the history.
 
---------------------------------------------------------------------------------------------------------------
----------------------------------------------------
-Overview (from the original file)
----------------------------------------------------
+# Before everything, some of my notes:
+## Previous level of experience:
+I had some previous experience with Docker and Kubernetes before this class, but not much at all with Asm and this kind of low level work.
 
-This directory is where you will do your work, it 
-is composed of:
+# What works - Week 2:
+## Disclaimer
+** I was not able to successfully implement all functionalities of week 2, so the console (procesing commands) is not enabled. To run the console, the week 1 tag should be used instead, as explained in the sections above.** 
 
-  - documents
-  - workspace
-  
-The directory "documents" contains a couple of 
-interesting readme files and a course of how 
-to use GDB if you are new to debugging with gdb.
-In the coming weeks, you will given other documents,
-mostly PDF ones, that you may add to this folder
-for documents.
+## Enabling interruptions
+The interruptions and FIFO were successfully enabled, as can be confirmed by running the code and checking that (at least) timeout interruptions are being captured.
 
-The directory "workspace" is very important, it is 
-the place where you will do your actual work.
+This required allocating space in the stack for IRQ and executing the lines of code provided in the Week 2's README.
 
-You will start by creating a local git repository
-for the content of directory "workspace" and do the
-first initial commit with the provided file ".gitignore".
-Edit the file ".gitignore" as you see fit, it is tailored
-to C development and the use of the Eclipse IDE. It is compatible
-also with the use of VSCode.
+## Writing to circular buffers
+I was able to use the RX and TX circular buffers in the code. The RX is used as specified; it is filled when a interruption is triggered. The TX buffer, although implemented, ended up not being used as I was not able to detected transmit interruptions.
 
-  $ cd workspace
-  $ git init
-  $ git add .gitignore
-  $ git commit -m "Initial commit"
-   
-The branch "master" will be the official release 
-of your work, with tags for each step of your homework.
-Never do actual work in your master, never break.
+## Capturing interruptions
+Although the code was able to detect/capture receive interruptions, for some reason transmit interruptions were not being captured. From my understanding of the README,
 
-In the directory "workspace/worklog", you will maintain
-a worklog of everything you do, in the classroom and at 
-home. You will use text-only formats, such pure text files 
-or markdown, so that git can manage diffs correctly.
+>The function "uart_send" will push bytes in another circula buffer,
+called "txcb", that the handler of the TX interrupt will...
 
-Overall, the work will be organized as steps. You will 
-git-tag the completion of each step. There must be work 
-done in this repository, weekly, and there must be 
-git-commits that correspond.  
+the interruption should be triggered when the TX circular buffer is full. However, I do not see how the hardware could detect that this buffer is full since it is defined by us in the code. I think I missed something here.
 
----------------------------------------------------
-Git Repository
----------------------------------------------------
 
-The directory "workspace" is a git repository, therefore
-be sure to avoid putting large non-textual documents 
-there, such as pdf or large images, or worse, videos.
-The idea is to keep your git repository small.
 
-First, the git repository will help you try out stuff,
-using branches that you can toss if the experiment fails.
-Working at a low-level like bare metal development is 
-delicate and it is easy to break everything. A rigorous
-use of GIT branches is the way to go.
-
-The core principle: always work in a branch that you can 
-throw away or at least in a way that you can throw away
-the changes since the last commit. This is the easiest
-approach to organize your work when working with git.
-
-NEVER break your master branch. Never do work on the master
-branch. When about to merge a branch "B" in the branch "master",
-always merge the branch "master" in your working branch "B"
-before merging the branch "B" in the branch "master".
-
-Second, we will use the git to see what you did and when
-you did it. It is mandatory that you commit each time you 
-work and tag your work for each step. 
-
-Nota Bene: if we see nothing in the git log for a week, 
-           we will assume that you did not work that week.
-
----------------------------------------------------
-WorkLog
----------------------------------------------------
-
-We ask that you maintain a work log, as one or more files under
-the directory "workspace/worklog", files where you will keep 
-track of everything you do, the questions you have, and the answers
-you find. 
-
-You will use text-only formats, such pure text files or markdown, 
-so that git can manage diffs correctly. If you generate non-textual
-documents, make sure to add the proper lines in the file .gitignore.
-
-Important, it is not the usual report for the teaching staff, 
-it is a worklog for yourself, helping track of what you learn. 
-So the contents must be helpful for you and will be dependent 
-on the skills and experience you already have, but it cannot be 
-empty. An empty worklog would mean that you did not work.
-
----------------------------------------------------
-arm.boot
----------------------------------------------------
-
-This is a makefile project, with the initial sources
-given to you as a starting point for your bare-metal
-software development.
+# What does not work - Week 2:
+- Transmitting is still done using the "conventional" method for the reasons explained above, although the code for the interruption method is partially implemented
+- At some point while receiving, errors will start occurring or the terminal will freeze. I did not find a way to fix this error.
