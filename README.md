@@ -34,7 +34,7 @@ I had some previous experience with Docker and Kubernetes before this class, but
 
 # What works - Week 2:
 ## Disclaimer
-** I was not able to successfully implement all functionalities of week 2, so the console (procesing commands) is not enabled. To run the console, the week 1 tag should be used instead, as explained in the sections above.** 
+**I was not able to successfully implement all functionalities of week 2, so the console (procesing commands) is not enabled. To run the console, the week 1 tag should be used instead, as explained in the sections above.**
 
 ## Enabling interruptions
 The interruptions and FIFO were successfully enabled, as can be confirmed by running the code and checking that (at least) timeout interruptions are being captured.
